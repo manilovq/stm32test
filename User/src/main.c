@@ -17,37 +17,6 @@ void SysTick_Handler(void) { //1 ms
   if (delay_count > 0) {
 		delay_count--;
 	}	
-	/*
-
-	
-	if (BUTTON_READ() == 1) 
-	{
-		if (Button_count < 5) 
-		{
-			Button_count++;
-		}	else 
-	  {
-			if (Button_state == 0) 
-	    {
-			  Button_state=1;
-				//GPIO_ToggleBits(GPIOD, GPIO_Pin_14); //red LED
-				Mode=MODE_RED;
-				Mode_new = 1;
-				BLUE_OFF();
-				GREEN_OFF();
-				ORANGE_OFF();
-			}
-		}
-	} else 
-	{
-			if (Button_count > 0) 
-			{
-		  Button_count--;
-		  } else 
-			{
-		  Button_state=0;
-		  }
-	} */
 	
 }
 
@@ -64,10 +33,14 @@ int main(void) {
 	
 	LEDs_ini();
 	Keyboard_ini();
+	Usart1_ini();
   SysTick_Config(SystemCoreClock/1000);//1 ms
 
 
 	while(1) {
+		
+		
+		
 		// first column scan
 		GPIO_ResetBits(GPIOA, GPIO_Pin_3);
 		GPIO_SetBits(GPIOA, GPIO_Pin_4 | GPIO_Pin_5);
@@ -75,14 +48,21 @@ int main(void) {
 		if ((KEYBOARD_1C_READ() & 1) == 0) {
 			Button_push=1;
 			RED_ON();
+			USART_SendData(USART1, 'r');
+			while ((KEYBOARD_1C_READ() & 1) == 0);
+			
 		}
 		if ((KEYBOARD_1C_READ() & 2) == 0) {
 			Button_push=1;
 			GREEN_ON();
+			USART_SendData(USART1, 'g');
+			while ((KEYBOARD_1C_READ() & 2) == 0);
 		}
 		if ((KEYBOARD_1C_READ() & 4) == 0) {
 			Button_push=1;
 			BLUE_ON();
+			USART_SendData(USART1, 'b');
+			while ((KEYBOARD_1C_READ() & 4) == 0);
 		}
 		
 		if (Button_push == 1) {

@@ -445,6 +445,11 @@
               <FileType>1</FileType>
               <FilePath>.\User\src\keyboard.c</FilePath>
             </File>
+            <File>
+              <FileName>usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\usart.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
